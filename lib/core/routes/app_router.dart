@@ -3,16 +3,33 @@ import 'package:go_router/go_router.dart';
 import 'package:my_eyezon_app/core/navigation/custom_bottom_nav_bar.dart';
 import 'package:my_eyezon_app/core/routes/app_routes.dart';
 import 'package:my_eyezon_app/features/Admin%20Management/presentation/views/add_Admin_criminal_view.dart';
+import 'package:my_eyezon_app/features/Authentication/presentation/views/login_view.dart';
 import 'package:my_eyezon_app/features/Criminals%20Management/presentation/views/criminal_status_view.dart';
 import 'package:my_eyezon_app/features/Criminals%20Management/presentation/views/wanted_criminals_view.dart';
 import 'package:my_eyezon_app/features/Profile%20&%20Settings/presentation/views/settings_view.dart';
 import 'package:my_eyezon_app/features/Splash/presentation/views/splash_view.dart';
+import 'package:my_eyezon_app/features/Stream/presentation/views/Stream_view.dart';
 import 'package:my_eyezon_app/features/home/presentation/views/home_view.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: AppRoutes.splash,
     routes: [
+      // المسارات التي لا تستخدم الـ BottomNavigationBar
+      GoRoute(
+        path: AppRoutes.splash,
+        builder: (context, state) => const SplashView(),
+      ),
+      GoRoute(
+        path: AppRoutes.login,
+        builder: (context, state) => const LoginView(),
+      ),
+      GoRoute(
+        path: AppRoutes.stream,
+        builder: (context, state) => const StreamView(),
+      ),
+
+      // المسارات التي تستخدم الـ BottomNavigationBar
       ShellRoute(
         builder: (context, state, child) {
           final location = state.uri.toString();
@@ -43,7 +60,9 @@ class AppRouter {
                     context.go(AppRoutes.criminalStatus);
                     break;
                   case 2:
-                    context.go(AppRoutes.settings);
+                    context.go(
+                      AppRoutes.addAdminCriminal,
+                    ); // تصحيح: كانت settings
                     break;
                   case 3:
                     context.go(AppRoutes.wantedCriminals);
@@ -78,10 +97,6 @@ class AppRouter {
             builder: (context, state) => const SettingsView(),
           ),
         ],
-      ),
-      GoRoute(
-        path: AppRoutes.splash,
-        builder: (context, state) => const SplashView(),
       ),
     ],
   );
